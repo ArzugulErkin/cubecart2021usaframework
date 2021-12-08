@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class ATMDemo3 {
     public static void main(String[] args) {
      double accountBalance=5000.50;
+
         System.out.println("Please input your pin");
         Scanner input=new Scanner(System.in);
         if(input.nextInt()==1234) {
