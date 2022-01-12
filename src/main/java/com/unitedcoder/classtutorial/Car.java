@@ -16,7 +16,25 @@ public class Car {
     private String bodyType;
     private boolean isNew;
     private String model;
+    //default constructor
+    public Car() {
+    }
 
+    public Car(String type, int year, double price, String brand, String vin, int mileAge, String color,
+               String engine, String make, String bodyType, boolean isNew, String model) {
+        this.type = type;
+        this.year = year;
+        this.price = price;
+        this.brand = brand;
+        this.vin = vin;
+        this.mileAge = mileAge;
+        this.color = color;
+        this.engine = engine;
+        this.make = make;
+        this.bodyType = bodyType;
+        this.isNew = isNew;
+        this.model = model;
+    }
 
     public String getType() {
         return type;
