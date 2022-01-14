@@ -3,6 +3,13 @@ package com.unitedcoder.classtutorial;
 public class Word {
     private String keyword;
 
+    public Word() {
+    }
+
+    public Word(String keyword) {
+        this.keyword = keyword;
+    }
+
     public String getKeyword() {
         return keyword;
     }
