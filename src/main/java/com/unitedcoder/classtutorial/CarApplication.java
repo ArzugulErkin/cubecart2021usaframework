@@ -50,10 +50,5 @@ public class CarApplication {
             System.out.println(car.getBodyType());
         }
 
-
-
-
-
-
     }
 }
