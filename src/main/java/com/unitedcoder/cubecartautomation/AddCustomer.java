@@ -1,5 +1,6 @@
 package com.unitedcoder.cubecartautomation;
 
+import com.unitedcoder.datetime.LocalTimeDemo;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,7 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AddCustomer {
     public static void main(String[] args) throws InterruptedException {
-         Long currentTimeStamp=System.currentTimeMillis();  //get current time in Unix format
+        // Long currentTimeStamp=System.currentTimeMillis();  //get current time in Unix format
+        LocalTimeDemo localTimeDemo=new LocalTimeDemo();
+        String currentTimeStamp=localTimeDemo.getLocalDateTime();
         //add chromedriver reference to the system
         System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
         //define a webdriver and chrome options
@@ -54,7 +57,7 @@ public class AddCustomer {
         //logout and close the browser
         WebElement logoutIcon = driver.findElement(By.cssSelector("i.fa.fa-sign-out"));
         logoutIcon.click();
-        driver.close();
-        driver.quit();
+       driver.close();
+       driver.quit();
     }
 }
