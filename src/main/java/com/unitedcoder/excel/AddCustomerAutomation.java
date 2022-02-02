@@ -1,14 +1,27 @@
-package com.unitedcoder.cubecartautomation;
+package com.unitedcoder.excel;
 
 import com.unitedcoder.datetime.LocalTimeDemo;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AddCustomer {
+public class AddCustomerAutomation {
     public static void main(String[] args) throws InterruptedException {
+        //read the username and password from the excel file
+        ExcelUtility excelUtility=new ExcelUtility();
+        String username=excelUtility.readExcelCell("doc\\cubecart-login.xlsx","Sheet1",1,0);
+        String password=excelUtility.readExcelCell("doc\\cubecart-login.xlsx","Sheet1",1,1);
+
+        //read the customer name from the excel file
+        String customerFirstName=excelUtility.readExcelCell("doc\\cubecart-login.xlsx","Sheet2",2,0);
+        String customerLastName=excelUtility.readExcelCell("doc\\cubecart-login.xlsx","Sheet2",2,1);
+        String customerEmail=excelUtility.readExcelCell("doc\\cubecart-login.xlsx","Sheet2",2,2);
+
         // Long currentTimeStamp=System.currentTimeMillis();  //get current time in Unix format
         LocalTimeDemo localTimeDemo=new LocalTimeDemo();
         String currentTimeStamp=localTimeDemo.getLocalDateTime();
@@ -23,10 +36,10 @@ public class AddCustomer {
         driver.get("http://cubecartqa1.unitedcoderschool.com/admin_xrmx7f.php");
 
         WebElement usernameInputBox = driver.findElement(By.id("username"));
-        usernameInputBox.sendKeys("testautomation1");
+        usernameInputBox.sendKeys(username);
 
         WebElement passwordInputBox = driver.findElement(By.id("password"));
-        passwordInputBox.sendKeys("automation123!");
+        passwordInputBox.sendKeys(password);
 
         WebElement loginButton = driver.findElement(By.id("login"));
         loginButton.click();
@@ -43,11 +56,14 @@ public class AddCustomer {
         WebElement customerStatusCheckbox = driver.findElement(By.cssSelector("img.checkbox.cbs"));
         customerStatusCheckbox.click();
         WebElement customerFirstNameInputBox = driver.findElement(By.id("cust-firstname"));
-        customerFirstNameInputBox.sendKeys("Dolkun"+currentTimeStamp);
+        customerFirstNameInputBox.sendKeys(customerFirstName+currentTimeStamp);
+
         WebElement customerLastNameInputBox = driver.findElement(By.id("cust-lastname"));
-        customerLastNameInputBox.sendKeys("Tarim"+currentTimeStamp);
+        customerLastNameInputBox.sendKeys(customerLastName+currentTimeStamp);
+
         WebElement customerEmailInputBox = driver.findElement(By.id("cust-email"));
-        customerEmailInputBox.sendKeys("dolkun"+currentTimeStamp+"@test.com");
+        customerEmailInputBox.sendKeys("test"+currentTimeStamp+customerEmail);
+
         WebElement customerSaveButton = driver.findElement(By.name("save"));
         customerSaveButton.click();
         //verify the confirmation message
