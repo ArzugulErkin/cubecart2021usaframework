@@ -1,23 +1,36 @@
 package com.unitedcoder.io;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
+
 
 public class FileInputStreamDemo {
     public static void main(String[] args) {
         InputStream in = null;
-        StringBuilder stringBuilder=new StringBuilder();
         try {
-            URL testUrl=new URL("http://commons.apache.org");
-            in= testUrl.openStream();
-            FileUtils.write(new File("doc\\apache.txt"), (CharSequence) in);
+            URL testUrl = new URL("https://commons.apache.org");
+            in = testUrl.openStream();
+            //use buffer read to read the content of the input stream
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            String inputLine;
+            StringBuilder websiteContent=new StringBuilder();
+
+            while ((inputLine = reader.readLine()) != null) {
+                System.out.println(inputLine);
+                websiteContent.append(inputLine);
+            }
+            reader.close();
+
+            if(websiteContent.toString().contains("Apache Commons Proper"))
+            {
+                System.out.println("Website content has the expected message");
+            }
+            else {
+                System.out.println("Website content did not have the expected message");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

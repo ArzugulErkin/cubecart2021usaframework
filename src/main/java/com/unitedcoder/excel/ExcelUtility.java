@@ -1,14 +1,12 @@
 package com.unitedcoder.excel;
 
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 
 public class ExcelUtility {
     public String readExcelCell(String fileName,String sheetName,int rowNumber,int cellNumber)
@@ -54,5 +52,49 @@ public class ExcelUtility {
         }
 
         return cellValue;
+    }
+    public void writeToExcelFileMultipleCells(String fileName, String sheetName, List<String> contents)
+    {
+        //define a file to write
+        File excelFile=new File(fileName);  //we create a file object instance
+        //define a workbook
+        XSSFWorkbook workbook=new XSSFWorkbook();
+        //add worksheet to the workbook
+        XSSFSheet sheet= workbook.createSheet(sheetName);
+        //define rows in the worksheet
+        int numberOfRows=contents.size();
+        for(int rowNumber=0;rowNumber<numberOfRows; rowNumber++)
+        {
+            XSSFRow row=sheet.createRow(rowNumber); //add row to the sheet
+            String[] rowContent=contents.get(rowNumber).split(",");  //separating content with comma
+            int totalCells=rowContent.length;
+            for(int cellNumber=0;cellNumber<totalCells;cellNumber++)
+            {
+                XSSFCell cell=row.createCell(cellNumber); //add cell to the row
+                //add value to the cell
+                cell.setCellValue(rowContent[cellNumber]);
+
+                if(rowContent[cellNumber].equalsIgnoreCase("passed"))
+                {
+                    XSSFCellStyle style=workbook.createCellStyle();
+                    style.setFillForegroundColor(IndexedColors.GREEN.getIndex()); //set cell color to green
+                    style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                    cell.setCellStyle(style);
+                }
+            }
+
+        }
+        //define output stream to write a file to the disk
+        FileOutputStream outputStream=null;
+        try {
+            outputStream=new FileOutputStream(excelFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
