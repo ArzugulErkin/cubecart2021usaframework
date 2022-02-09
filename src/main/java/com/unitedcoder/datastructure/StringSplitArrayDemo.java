@@ -20,5 +20,6 @@ public class StringSplitArrayDemo {
         int totalNumbers=allNumbers.length;
         float average=(float)sum/totalNumbers;
         System.out.printf("average is: %.2f",average);
+
     }
 }

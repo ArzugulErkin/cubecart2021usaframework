@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class GoogleSearchDemo1 {
+public class GoogleSearchDemo4 {
   static   WebDriver driver;
     public static void main(String[] args) throws InterruptedException {
         //add chromedriver reference to the system
@@ -19,8 +19,9 @@ public class GoogleSearchDemo1 {
         driver.manage().window().maximize(); //maximize the browser window
         driver.get("https://www.google.com");
         //find the search field and type a search word
-        searchAKeyword("New York");
-        sleep(5);
+        GoogleSearchDemo4 googleSearchDemo4=new GoogleSearchDemo4();
+        googleSearchDemo4.searchAKeyword("New York");
+        googleSearchDemo4.sleep(5);
         //verify the result
         WebElement result=driver.findElement(By.id("result-stats"));
         System.out.println("Result displayed? "+result.isDisplayed());
@@ -39,20 +40,20 @@ public class GoogleSearchDemo1 {
         //driver.close();
         driver.quit();
     }
-    public static void waitUntilElementIsVisible(WebElement webElement)
+    public void waitUntilElementIsVisible(WebElement webElement)
     {
         WebDriverWait wait=new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.visibilityOf(webElement));
     }
 
-    public static void searchAKeyword(String keywordToSearch)
+    public  void searchAKeyword(String keywordToSearch)
     {
         WebElement searchBox=driver.findElement(By.name("q"));
         waitUntilElementIsVisible(searchBox);
         searchBox.sendKeys(keywordToSearch+Keys.ENTER);
     }
 
-    public static void sleep(int seconds)
+    public  void sleep(int seconds)
     {
         try {
             Thread.sleep(seconds*1000);

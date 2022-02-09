@@ -9,9 +9,11 @@ public class HelloWorld {  //begin brace
     public static void main(String[] args)  //default program main entry point
     { //opening brace
         //print one line on the console
-        System.out.println("Hello World");
+        //System.out.println("Hello World");
         //object.method.method(parameters)
-        System.out.print("Dolkun Tarim");
+        //System.out.print("Dolkun Tarim");
+
+        System.out.println(8400*Math.pow(1.054,13));
 
     } //closing brace
 } //end brace
