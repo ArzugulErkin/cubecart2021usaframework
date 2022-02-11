@@ -1,5 +1,6 @@
 package com.unitedcoder.multithreading;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,7 +14,8 @@ public class GoogleMultiThreadSearch implements Runnable{
 
     @Override
     public void run() {
-        System.setProperty("webdriver.chrome.driver","c:\\webdriver\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver","c:\\webdriver\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         //define a webdriver and chrome options
         ChromeOptions chromeOptions=new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);

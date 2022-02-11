@@ -1,5 +1,6 @@
 package com.unitedcoder.datastructure;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +28,8 @@ public class AddCustomerArrayListAutomation3 {
         customers.add("Mary,Smith,mary.smith@test.com,223-987-1234");
         customers.add("Jason,Jackson,jason.jackson@test.com,661-234-986");
         //add chromedriver reference to the system
-        System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
+        //System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
         //define a webdriver and chrome options
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);

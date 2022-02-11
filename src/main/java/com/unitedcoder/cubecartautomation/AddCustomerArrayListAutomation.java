@@ -1,5 +1,6 @@
 package com.unitedcoder.cubecartautomation;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -35,8 +36,9 @@ public class AddCustomerArrayListAutomation {
         customers.add("Jason,Jackson,jason.jackson@test.com,661-234-986");
         customers.add("Dilmurat,Mutellip,dilmurat.mutellip@test.com,981-123-4321");
         //add chromedriver reference to the system
-        System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
         //define a webdriver and chrome options
+        WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         WebDriver driver = new ChromeDriver(chromeOptions);

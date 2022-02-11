@@ -1,4 +1,5 @@
 package com.unitedcoder.datastructure;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,7 +23,8 @@ public class MultiSiteTestAutomation {
         websites.put("CNN","https://www.cnn.com");
         //define a web driver
         //add chromedriver reference to the system
-        System.setProperty("webdriver.chrome.driver","c:\\webdriver\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver","c:\\webdriver\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         //define a webdriver and chrome options
         ChromeOptions chromeOptions=new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);

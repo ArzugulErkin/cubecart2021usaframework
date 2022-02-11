@@ -1,5 +1,6 @@
 package com.unitedcoder.inheritancetutorial;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +15,8 @@ public class BaseClass {
     public static void openBrowser()
     {
         //add chromedriver reference to the system
-        System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         //define a webdriver and chrome options
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
