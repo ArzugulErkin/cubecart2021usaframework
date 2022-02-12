@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class FunctionLibrary {
     WebDriver driver;
@@ -112,16 +113,197 @@ public class FunctionLibrary {
             return false;
     }
 
+    public  boolean addProduct(Product product,String timestamp)
+    {
+        //find add product link and click
+        WebElement productsLink = driver.findElement(By.id("nav_products"));
+        productsLink.click();
+
+        WebElement addProductLink = driver.findElement(By.linkText("Add Product"));
+        addProductLink.click();
+
+        //fill out the new product form
+        WebElement productNameInputBox=driver.findElement(By.id("name"));
+        productNameInputBox.sendKeys(product.getProductName()+timestamp);
+
+        //select Apple as the manufacturer
+        Select productFactorySelect=new Select(driver.findElement(By.id("manufacturer")));
+        productFactorySelect.selectByVisibleText("Apple");
+
+        WebElement productCodeInputBox=driver.findElement(By.id("product_code"));
+        productCodeInputBox.sendKeys(product.getProductCode()+timestamp);
+        //add categories
+        WebElement categoryTabElement=driver.findElement(By.id("tab_category"));
+        categoryTabElement.click();
+        WebElement productCategory=driver.findElement(By.id(product.getProductCategory()));
+        productCategory.click();
+        WebElement productSaveButton=driver.findElement(By.cssSelector("input[value='Save']"));
+        productSaveButton.click();
+        //verify the confirmation message
+        WebElement confirmationMessageElement = driver.findElement(By.cssSelector("div.success"));
+        System.out.println("Confirmation message display result for Product: " + confirmationMessageElement.isDisplayed());
+        if(confirmationMessageElement.isDisplayed())
+            return true;
+        else
+            return false;
+    }
+
+    public boolean priceChange(List<Product> products, ProductPriceChangeAction productPriceChangeAction,
+                               double amount) {
+        WebElement bulkPriceUpdateLink=driver.findElement(By.linkText("Bulk Price Change"));
+        bulkPriceUpdateLink.click();
+        //check products to update
+        for(Product product:products)
+        {
+            String productCheckbox=String.format("//td[text()='%s']//parent::tr//input",product.getProductName());
+            //WebDriverWait wait=new WebDriverWait(driver,30);
+            //wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(productCheckbox))));
+            WebElement eachProductCheckBox=driver.findElement(By.xpath(productCheckbox));
+            eachProductCheckBox.click();
+            sleep(2);
+        }
+        WebElement bulkPriceActionDropdownList = driver.findElement(By.id("bulk_price_action"));
+        Select bulkPriceActionSelect = new Select(bulkPriceActionDropdownList);
+        switch (productPriceChangeAction) {
+            case ADD:
+                bulkPriceActionSelect.selectByVisibleText("Add");
+                break;
+            case SUBTRACT:
+                bulkPriceActionSelect.selectByVisibleText("Subtract");
+                break;
+            case SETTO:
+                bulkPriceActionSelect.selectByVisibleText("Set to");
+                break;
+            default:
+                bulkPriceActionSelect.selectByVisibleText("Set to");
+                break;
+        }
+        //set input amount
+        WebElement inputAmountTextBox=driver.findElement(By.name("price[value]"));
+        inputAmountTextBox.sendKeys(String.valueOf(amount));
+
+        WebElement saveButton = driver.findElement(By.cssSelector("input[value='Save']"));
+        saveButton.click();
+        WebElement successMessageElement=driver.findElement(By.cssSelector("div.success"));
+        if(successMessageElement.getText().contains("updated"))
+            return true;
+        else
+            return false;
+    }
+    //use overload method for the price change amount
+    public boolean priceChange(List<Product> products,
+                               ProductBulkPriceMethod productBulkPriceMethod,
+                               ProductPriceChangeAction productPriceChangeAction,
+                               double amount)
+    {
+        boolean isByPercentage=false;
+        WebElement bulkPriceUpdateLink=driver.findElement(By.linkText("Bulk Price Change"));
+        bulkPriceUpdateLink.click();
+        //choose price change method
+        WebElement priceChangeMethodDropdownList=driver.findElement(By.id("bulk_price_method"));
+        Select priceChangeMethodSelect=new Select(priceChangeMethodDropdownList);
+        switch (productBulkPriceMethod)
+        {
+            case BY_AMOUNT:
+                priceChangeMethodSelect.selectByVisibleText("By Amount");
+                break;
+            case BY_PERCENTAGE:
+                priceChangeMethodSelect.selectByVisibleText("By Percent");
+                isByPercentage=true;
+                break;
+        }
+
+        //check products to update
+        for(Product product:products)
+        {
+            String productCheckbox=String.format("//td[text()='%s']//parent::tr//input",product.getProductName());
+            //WebDriverWait wait=new WebDriverWait(driver,30);
+            //wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(productCheckbox))));
+            WebElement eachProductCheckBox=driver.findElement(By.xpath(productCheckbox));
+            eachProductCheckBox.click();
+            sleep(2);
+        }
+        if(!isByPercentage) {
+            WebElement bulkPriceActionDropdownList = driver.findElement(By.id("bulk_price_action"));
+            Select bulkPriceActionSelect = new Select(bulkPriceActionDropdownList);
+            switch (productPriceChangeAction) {
+                case ADD:
+                    bulkPriceActionSelect.selectByVisibleText("Add");
+                    break;
+                case SUBTRACT:
+                    bulkPriceActionSelect.selectByVisibleText("Subtract");
+                    break;
+                case SETTO:
+                    bulkPriceActionSelect.selectByVisibleText("Set to");
+                    break;
+                default:
+                    bulkPriceActionSelect.selectByVisibleText("Set to");
+                    break;
+            }
+        }
+        //set input amount
+        WebElement inputAmountTextBox=driver.findElement(By.name("price[value]"));
+        inputAmountTextBox.sendKeys(String.valueOf(amount));
+
+        WebElement saveButton = driver.findElement(By.cssSelector("input[value='Save']"));
+        saveButton.click();
+        WebElement successMessageElement=driver.findElement(By.cssSelector("div.success"));
+        if(successMessageElement.getText().contains("updated"))
+            return true;
+        else
+            return false;
+    }
+
     public String getCurrentTimestamp()
     {
         LocalDateTime now=LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS");
         return now.format(formatter);
     }
+    public void sleep(int seconds)
+    {
+        try {
+            Thread.sleep(1000*seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void closeBrowser()
     {
         //driver.close();
         driver.quit();
     }
 
+    public boolean deleteProduct(List<Product> products)
+    {
+        WebElement productsLink=driver.findElement(By.id("nav_products"));
+        productsLink.click();
+        int totalDeletion=0;
+        for(Product product: products)
+        {
+
+            String productNameXpath=String.format("//tr/td/a[text()='%s']//ancestor::tr//a[@class='delete']",product.getProductName());
+            WebElement eachProductDeleteButton=driver.findElement(By.xpath(productNameXpath));
+            eachProductDeleteButton.click();
+            //confirm the alert box
+            driver.switchTo().alert().accept();
+            sleep(2);
+            driver.switchTo().defaultContent();
+            WebElement confirmationMessageElement=driver.findElement(By.cssSelector("div.success"));
+            if(confirmationMessageElement.isDisplayed()) {
+                totalDeletion++;
+                System.out.println(product.getProductName()+ " has been deleted");
+            }
+            else
+            {
+                System.out.println("Product deletion is failed");
+            }
+        }
+        if(totalDeletion== products.size())
+            return true;
+        else
+            return false;
+
+    }
 }
