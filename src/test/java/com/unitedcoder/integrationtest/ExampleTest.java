@@ -1,4 +1,4 @@
-package com.unitedcoder.testsuite;
+package com.unitedcoder.integrationtest;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
