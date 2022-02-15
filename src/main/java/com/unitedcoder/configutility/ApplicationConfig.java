@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ApplicationConfig {
+    public static void main(String[] args) {
+        ApplicationConfig applicationConfig=new ApplicationConfig();
+     String qaUrl=   applicationConfig.readConfigProperties("config-qa.properties","url");
+     String prodUrl=applicationConfig.readConfigProperties("config-prod.properties","url");
+        System.out.println(qaUrl);
+        System.out.println(prodUrl);
+    }
     //write a method to read a specific key value pair from a config.properties file
     public String readConfigProperties(String filename,String key)
     {

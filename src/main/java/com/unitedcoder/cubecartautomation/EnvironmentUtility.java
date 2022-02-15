@@ -1,6 +1,7 @@
 package com.unitedcoder.cubecartautomation;
 
 public class EnvironmentUtility {
+
     public String getConfigFileByEnvironment(Environment environment)
     {
         String configFileName=null;
@@ -18,4 +19,5 @@ public class EnvironmentUtility {
         }
         return configFileName;
     }
+
 }

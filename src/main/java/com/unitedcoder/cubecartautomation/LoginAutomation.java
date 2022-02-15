@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginAutomation {
     public static void main(String[] args) throws InterruptedException {
+
         LocalTimeDemo localTimeDemo=new LocalTimeDemo();
         String currentTimeStamp=localTimeDemo.getLocalDateTime();
         //add chromedriver reference to the system
@@ -26,10 +27,14 @@ public class LoginAutomation {
         WebDriver driver = new ChromeDriver(chromeOptions);
         //open the browser
         driver.manage().window().maximize(); //maximize the browser window
+
         //read application config based on the environment variable
         ApplicationConfig applicationConfig=new ApplicationConfig();
+
         EnvironmentUtility environmentUtility=new EnvironmentUtility();
+
         String environmentName=System.getenv("environment").toUpperCase();
+
         String configFile=environmentUtility.getConfigFileByEnvironment(Environment.valueOf(environmentName));
         String url=applicationConfig.readConfigProperties(configFile,"url");
         String username=applicationConfig.readConfigProperties(configFile,"username");
