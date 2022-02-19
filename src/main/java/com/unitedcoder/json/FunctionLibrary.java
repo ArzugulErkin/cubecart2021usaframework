@@ -260,6 +260,12 @@ public class FunctionLibrary {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS");
         return now.format(formatter);
     }
+    public String getCurrentTimestampWithoutDash()
+    {
+        LocalDateTime now=LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+        return now.format(formatter);
+    }
     public void sleep(int seconds)
     {
         try {

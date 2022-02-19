@@ -1,8 +1,8 @@
 package com.unitedcoder.integrationtest.cubecartjunit;
 
 import org.junit.jupiter.api.*;
-
-public class JUnitTestDemo {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)  //default
+public class JUnitTestDemo2 {
   @BeforeAll
     public static void setUp()
   {
@@ -19,12 +19,16 @@ public class JUnitTestDemo {
       System.out.println("test end ...... ");
   }
   @Test
+  @Order(1)
+  @Tag("Smoke Test")
   public void squareRootTest()
   {
       System.out.println("This is for testing a square root");
       Assertions.assertTrue(Math.sqrt(9)==3.0);
   }
   @Test
+  @Order(2)
+  @Tag("Smoke Test")
    public   void compareStringTest()
   {
       String s1="selenium";
@@ -32,6 +36,8 @@ public class JUnitTestDemo {
       Assertions.assertEquals(s1,s2);
   }
   @Test
+  @Order(3)
+  @Tag("Regression Test")
   public void mathPowerTest()
   {
       System.out.println("This is for testing a power of a number");
