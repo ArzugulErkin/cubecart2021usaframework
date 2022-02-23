@@ -16,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class FunctionLibrary {
-    WebDriver driver;
-    public  void openBrowser()
+   static WebDriver driver;
+    public static void openBrowser()
     {
         //add chromedriver reference to the system
         //System.setProperty("webdriver.chrome.driver", "c:\\webdriver\\chromedriver.exe");
@@ -153,7 +153,7 @@ public class FunctionLibrary {
         WebElement bulkPriceUpdateLink=driver.findElement(By.linkText("Bulk Price Change"));
         bulkPriceUpdateLink.click();
         //check products to update
-        for(Product product:products)
+       for(Product product:products)
         {
             String productCheckbox=String.format("//td[text()='%s']//parent::tr//input",product.getProductName());
             //WebDriverWait wait=new WebDriverWait(driver,30);
@@ -266,6 +266,7 @@ public class FunctionLibrary {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         return now.format(formatter);
     }
+
     public void sleep(int seconds)
     {
         try {
