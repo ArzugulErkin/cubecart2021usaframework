@@ -13,28 +13,31 @@ public class DashboardPage {
     WebDriver driver;
     @FindBy(css="i.fa.fa-sign-out")
     WebElement signOutIcon;
-    @FindBy(linkText = "Customer List")
-    WebElement customerListLink;
-    @FindBy(linkText = "Categories")
-    WebElement categoriesLink;
+
     @FindBy(id="nav_products")
     WebElement productsLink;
     @FindAll(
         @FindBy(xpath = "//div[@id='navigation']//a")
     )
     List<WebElement> allNavigationLinks;
+
+    FunctionPage functionPage;
+    int timeout=30;
     //create a constructor
     public DashboardPage(WebDriver driver)
     {
         this.driver=driver;
         PageFactory.initElements(driver,this);
+        functionPage=new FunctionPage(driver);
     }
     public boolean isProductLinkDisplayed()
     {
+        functionPage.waitUntilElementIsPresent(productsLink,timeout);
         return productsLink.isDisplayed();
     }
     public void logout()
     {
+        functionPage.waitUntilElementIsPresent(signOutIcon,timeout);
         signOutIcon.click();
     }
 
