@@ -9,5 +9,6 @@ public class ExampleTest {
     {
         System.out.println("This is a login test");
         Assert.assertTrue(Math.sqrt(9)==3.00);
+        System.out.println("This is a dummy output for my inventory automation taks one");
     }
 }
