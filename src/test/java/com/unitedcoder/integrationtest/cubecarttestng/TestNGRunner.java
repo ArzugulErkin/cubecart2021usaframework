@@ -5,25 +5,26 @@ import com.unitedcoder.integrationtest.pageobjectpattern.CategoryPage;
 import com.unitedcoder.integrationtest.pageobjectpattern.CustomerPage;
 import com.unitedcoder.integrationtest.pageobjectpattern.DashboardPage;
 import com.unitedcoder.integrationtest.pageobjectpattern.LoginPage;
-import com.unitedcoder.json.FunctionLibrary;
-import com.unitedcoder.json.Product;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.Random;
-
+@Listeners(CustomResultListener.class)  //using testng listener for test success or failure
 public class TestNGRunner extends TestBase {
     final String configFile="config-qa.properties";
     @BeforeClass
-    public void setUp()
+    public void setUp(ITestContext context)
     {
         ApplicationConfig applicationConfig=new ApplicationConfig();
         String username=applicationConfig.readConfigProperties(configFile,"username");
         String password= applicationConfig.readConfigProperties(configFile,"password");
         String url= applicationConfig.readConfigProperties(configFile,"url");
         setUpBrowser(url);
+        context.setAttribute("driver",driver); //setting webdriver in the test context
         //login
         LoginPage loginPage=new LoginPage(driver);
         loginPage.login(username,password);
@@ -57,6 +58,8 @@ public class TestNGRunner extends TestBase {
     public void tearDown()
     {
         closeBrowser();
+        System.out.println("Total passed: "+CustomResultListener.passedTests.size());
+        System.out.println("Total failed: "+CustomResultListener.failedTests.size());
     }
 
 }

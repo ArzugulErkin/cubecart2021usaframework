@@ -17,7 +17,7 @@ public class TestNGDemo3 {
         System.out.println("This is a test for adding a category");
         Assert.assertTrue(Math.pow(10,2)==100);
     }
-    @Test(description = "Delete customer test",dependsOnGroups = {"add customer"} )
+    @Test(description = "Delete customer test",dependsOnGroups = {"add customer"})
     public void deleteCustomerTest()
     {
         System.out.println("This is for deleting customer test");
