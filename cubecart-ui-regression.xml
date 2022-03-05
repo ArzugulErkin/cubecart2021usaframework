@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Cubecart Smoke Test Suite Category Customer Module" verbose="1" >
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"></listener>
+    </listeners>
+    <test name="Category Customer Data Driven Test" >
+        <classes>
+            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGDataProviderDemoTest" />
+        </classes>
+    </test>
+</suite>
