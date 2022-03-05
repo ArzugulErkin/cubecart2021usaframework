@@ -5,7 +5,7 @@
     </listeners>
     <test name="Cubecart Customer Category Module Smoke Test One" >
         <classes>
-            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner" />
+            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner"/>
         </classes>
     </test>
 

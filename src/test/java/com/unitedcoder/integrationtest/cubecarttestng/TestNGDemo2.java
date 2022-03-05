@@ -13,6 +13,12 @@ public class TestNGDemo2 {
     {
         System.out.println("In TestNG, before method will run before every test");
     }
+    @BeforeTest
+    public void beforeTestDummy()
+    {
+        System.out.println("This is before test");
+    }
+
 
     @Test(description = "add product test",groups = {"Smoke","Regression"},invocationCount = 2)
     public void addProductTest()
@@ -33,6 +39,11 @@ public class TestNGDemo2 {
     {
         System.out.println("This is a test for the inventory link verification");
         Assert.assertTrue("Inventory Link".length()>5);
+    }
+    @AfterTest
+    public void afterTestDummy()
+    {
+        System.out.println("This is after test");
     }
 
     @AfterMethod
