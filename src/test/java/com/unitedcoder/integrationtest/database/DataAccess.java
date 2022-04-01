@@ -2,10 +2,7 @@ package com.unitedcoder.integrationtest.database;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DataAccess {
     //write a method to get a product information
@@ -68,5 +65,111 @@ public class DataAccess {
                 isProductExist=true;
             return isProductExist;
         }
+    }
+
+
+    public boolean getCustomerName(String emailAddress, Connection connection)
+    {
+        boolean isCustomerExist=false;
+        Statement statement=null; //define a Statement object for executing sql script
+        ResultSet resultSet=null; //define resultSet object
+        CachedRowSet cachedRowSet=null;
+        try {
+            cachedRowSet= RowSetProvider.newFactory().createCachedRowSet();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            statement= connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String customerSqlScript=String.format("SELECT customer_id,email FROM cc_CubeCart_customer where email='%s'",emailAddress);
+        //execute the statement
+        try {
+            resultSet=statement.executeQuery(customerSqlScript); //select statements
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //verify the result set
+        if(resultSet==null)
+        {
+            System.out.println("No Records Found");
+            return isCustomerExist;
+        }
+        else {
+            try {
+                cachedRowSet.populate(resultSet); //we store the result in the cached row set
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            int count=0;
+            while (true)
+            {
+                try {
+                    if(!cachedRowSet.next())
+                        break;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                int customerId= 0;
+                try {
+                    customerId = cachedRowSet.getInt("customer_id");
+                    String email=cachedRowSet.getString("email");
+                    System.out.println(String.format("customer_id=%d email=%s ",customerId, email));
+                    count=cachedRowSet.getRow();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(count>=1)
+                isCustomerExist=true;
+            return isCustomerExist;
+        }
+    }
+    public boolean insertNewCategory(CategoryObject categoryObject, Connection connection)
+    {
+        String insertCategorySQLScript="INSERT INTO cc_CubeCart_category\n" +
+                "(cat_name,cat_desc,cat_parent_id,cat_image,per_ship,item_ship,\n" +
+                "item_int_ship,per_int_ship,hide,seo_meta_title,seo_meta_description,seo_meta_keywords,priority,status)\n" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        //we use SQL Prepared Statment to set the value for each of the columns
+        PreparedStatement insertSatement=null;
+        System.out.println(categoryObject.toString());
+        try {
+            insertSatement=connection.prepareStatement(insertCategorySQLScript);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            insertSatement.setString(1,categoryObject.getCatName());
+            insertSatement.setString(2,categoryObject.getCatDesc());
+            insertSatement.setInt(3,categoryObject.getCatParentId());
+            insertSatement.setInt(4,categoryObject.getCatImage());
+            insertSatement.setDouble(5,categoryObject.getPerShip());
+            insertSatement.setDouble(6,categoryObject.getItemShip());
+            insertSatement.setDouble(7,categoryObject.getItemIntShip());
+            insertSatement.setDouble(8,categoryObject.getPerIntShip());
+            insertSatement.setInt(9,categoryObject.getHide());
+            insertSatement.setString(10,categoryObject.getSeoMetaTitle());
+            insertSatement.setString(11,categoryObject.getSeoMetaDescription());
+            insertSatement.setString(12,categoryObject.getSeoMetaKeywords());
+            insertSatement.setInt(13,categoryObject.getPriority());
+            insertSatement.setInt(14,categoryObject.getStatus());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //execute the statment
+        int affectedRow=0;
+        try {
+            affectedRow=insertSatement.executeUpdate(); //insert, delete, update
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(String.format("%d rows affected",affectedRow));
+        if(affectedRow>=1)
+            return true;
+        else
+            return false;
     }
 }

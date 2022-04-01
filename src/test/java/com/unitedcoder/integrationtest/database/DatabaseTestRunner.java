@@ -1,5 +1,6 @@
 package com.unitedcoder.integrationtest.database;
 
+import com.unitedcoder.configutility.ApplicationConfig;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -8,15 +9,18 @@ import org.testng.annotations.Test;
 import java.sql.Connection;
 
 public class DatabaseTestRunner {
-    final static String dbUrl="148.72.106.125";
-    final static String dbPort="3306";
-    final static String username="testautomation";
-    final static String password="automation123!";
-    final static String defaultDatabase="cubecartqa1student";
     Connection connection=null;
+    ApplicationConfig applicationConfig;
+    final static String configFile="config-qa.properties";
     @BeforeClass
     public void setUp()
     {
+        applicationConfig=new ApplicationConfig();
+        String dbUrl=applicationConfig.readConfigProperties(configFile,"standalone.dbUrl");
+        String dbPort=applicationConfig.readConfigProperties(configFile,"standalone.dbPort");
+        String defaultDatabase=applicationConfig.readConfigProperties(configFile,"standalone.defaultDatabase");
+        String username=applicationConfig.readConfigProperties(configFile,"standalone.username");
+        String password=applicationConfig.readConfigProperties(configFile,"standalone.password");
         connection=ConnectionManager.connectToDatabaseServer(dbUrl,dbPort,defaultDatabase,
                 username,password,ConnectionType.MYSQL);
     }
@@ -32,12 +36,26 @@ public class DatabaseTestRunner {
         DataAccess dataAccess=new DataAccess();
         Assert.assertTrue(dataAccess.getProductName("Ulkar1645197281998",connection));
     }
-    @Test(description = "verify a product in the database")
-    public void verifyProductTest3()
+    @Test(description = "verify a customer in the database")
+    public void verifyCustomerTest()
     {
         DataAccess dataAccess=new DataAccess();
-        Assert.assertTrue(dataAccess.getProductName("Ulkarabcdefghijklmn",connection));
+        Assert.assertTrue(dataAccess.getCustomerName("almas2022-02-19-09-09-21-982@test.com",connection));
     }
+    @Test(description ="Admin user should be able to insert record into cubecart category table")
+    public void insertCategoryTest()
+    {
+       String currentTimeStamp=String.valueOf(System.currentTimeMillis());
+       CategoryObject testCategory=new CategoryObject(
+               "Dilmuray Category"+currentTimeStamp,
+               "Dilmurat Description "+currentTimeStamp,
+               0,0,0,0,0,0,0,
+               "Dilmurat test category title","Dolkun Test Category Description",
+               "Dilmurat Test",1,1);
+       DataAccess dataAccess=new DataAccess();
+       Assert.assertTrue(dataAccess.insertNewCategory(testCategory,connection));
+    }
+
     @AfterClass
     public void tearDown()
     {
