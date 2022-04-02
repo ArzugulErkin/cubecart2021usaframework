@@ -127,6 +127,67 @@ public class DataAccess {
             return isCustomerExist;
         }
     }
+
+    public boolean getCategoryName(String categoryName, Connection connection)
+    {
+        boolean isCategoryExist=false;
+        Statement statement=null; //define a Statement object for executing sql script
+        ResultSet resultSet=null; //define resultSet object
+        CachedRowSet cachedRowSet=null;
+        try {
+            cachedRowSet= RowSetProvider.newFactory().createCachedRowSet();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            statement= connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String categorySqlScript=String.format("SELECT cat_name,cat_id FROM cc_CubeCart_category where cat_name='%s'",categoryName);
+        //execute the statement
+        try {
+            resultSet=statement.executeQuery(categorySqlScript); //select statements
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //verify the result set
+        if(resultSet==null)
+        {
+            System.out.println("No Records Found");
+            return isCategoryExist;
+        }
+        else {
+            try {
+                cachedRowSet.populate(resultSet); //we store the result in the cached row set
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            int count=0;
+            while (true)
+            {
+                try {
+                    if(!cachedRowSet.next())
+                        break;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                int categoryId= 0;
+                try {
+                    categoryId = cachedRowSet.getInt("cat_id");
+                    String catName=cachedRowSet.getString("cat_name");
+                    System.out.println(String.format("cat_id=%d cat_name=%s ",categoryId, catName));
+                    count=cachedRowSet.getRow();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(count>=1)
+                isCategoryExist=true;
+            return isCategoryExist;
+        }
+    }
+
     public boolean insertNewCategory(CategoryObject categoryObject, Connection connection)
     {
         String insertCategorySQLScript="INSERT INTO cc_CubeCart_category\n" +
