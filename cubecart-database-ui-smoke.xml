@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Cubecart Database UI Smoke Test Suite" verbose="1" >
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"></listener>
+    </listeners>
+    <test name="Cubecart UI Database Smoke Test" >
+        <classes>
+            <class name="com.unitedcoder.integrationtest.database.UIDatabaseTestRunner"/>
+        </classes>
+    </test>
+</suite>
