@@ -16,5 +16,6 @@ public class StudentApplication {
                 "6789 Cape Ann, Toronta, CA","David","Blockchain Technology","Blockchain Privacy",
                 Arrays.asList("Using password in Blockchain","Privacy enhancement in Blockchain","Hacking in Blockchain"));
         System.out.println(doctorStudent1);
+
     }
 }
