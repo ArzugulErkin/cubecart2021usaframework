@@ -15,9 +15,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty","html:target/cucumber-output/cubecart-ui-cucumber.html"},
-features = {"classpath:features/product.feature"})
-
+@CucumberOptions(plugin = {"pretty","html:target/cucumber-output/cubecart-cucumber.html"},
+features = {"classpath:features/product.feature",
+        "classpath:features/product-database.feature","classpath:features/cubecartapi.feature" })
 public class CucumberTestRunner {
 
  static WebDriver driver;

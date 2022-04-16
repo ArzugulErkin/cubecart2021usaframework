@@ -1,3 +1,4 @@
+@UITesting
 Feature: admin user can manage products
   as an admin, the user should be able to add, update or delete products
 
