@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Selenium Advanced Action Test Suite" verbose="1" >
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"></listener>
+    </listeners>
+    <test name="Selenium Advanced Action and JavaScript Test" >
+        <classes>
+            <class name="com.unitedcoder.integrationtest.advancedaction.SeleniumAdvancedActionTest" />
+            <class name="com.unitedcoder.integrationtest.advancedaction.JavaScriptExecutionTest" />
+        </classes>
+    </test>
+</suite>
