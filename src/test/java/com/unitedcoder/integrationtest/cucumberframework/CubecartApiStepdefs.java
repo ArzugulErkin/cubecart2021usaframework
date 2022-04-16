@@ -1,6 +1,7 @@
 package com.unitedcoder.integrationtest.cucumberframework;
 
 import com.unitedcoder.configutility.ApplicationConfig;
+import com.unitedcoder.integrationtest.cubecartrestapi.CustomerPayload;
 import com.unitedcoder.integrationtest.cubecartrestapi.PayloadUtility;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -79,21 +80,21 @@ public class CubecartApiStepdefs {
     public void theApiShouldReturnMoreThenOneProduct() {
         Assert.assertTrue(CucumberAPIResponseHolder.getTotalProducts()>1);
     }
-    @Given("<email> and <title> and <firstname> and <lastname> and <country> and <phone> and <status> and <language> and <ipaddress>")
-    public void emailAndTitleAndFirstnameAndLastnameAndCountryAndPhoneAndStatusAndLanguageAndIpAddress(String arg0,String arg1,
-                                                                                                       String arg2,String arg3,
-                                                                                                       String arg4,String arg5,
-                                                                                                       int arg6,String arg7,
-                                                                                                       String arg8) {
-        customerPayload= PayloadUtility.getCustomerPayload(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
-        scenario.log(customerPayload);
 
+    @Given("{string} and {string} and {string} and {string} and {string} and {string} and {string} and {string} and {string}")
+    public void andAndAndAndAndAndAndAnd(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6, String arg7, String arg8) {
+        customerPayload= PayloadUtility.getCustomerPayload(arg0,arg1,arg2,arg3,arg4,arg5,Integer.valueOf(arg6),arg7,arg8);
+        scenario.log(customerPayload);
     }
 
 
     @When("the user sends a post request to the customer end point with the payload")
     public void theUserSendsAPostRequestToTheCustomerEndPointWithThePayload() {
-
+        applicationConfig=new ApplicationConfig();
+        username = applicationConfig.readConfigProperties(configFile,"api.username");
+        password=  applicationConfig.readConfigProperties(configFile,"api.password");
+        port=Integer.parseInt(applicationConfig.readConfigProperties(configFile,"api.port"));
+        baseUrl=applicationConfig.readConfigProperties(configFile,"api.baseurl");
         Response response=RestAssured.given().headers("Content-Type","application/json").and()
                 .body(customerPayload).auth().basic(username,password)
                 .when().post(baseUrl+":"+port+"/customer").then().extract().response();
@@ -111,4 +112,7 @@ public class CubecartApiStepdefs {
        Assert.assertTrue(CucumberAPIResponseHolder.getAddCustomerResponseCode()==arg0);
        Assert.assertTrue(CucumberAPIResponseHolder.getNewCustomerId()>1);
     }
+
+
+
 }
