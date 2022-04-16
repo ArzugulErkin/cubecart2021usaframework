@@ -1,6 +1,5 @@
 package com.unitedcoder.integrationtest.pageobjectpattern;
 
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;

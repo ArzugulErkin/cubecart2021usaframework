@@ -4,6 +4,8 @@ public class TestDataHolder {
     private static String customerFirstName;
     private static String customerEmail;
     private static String categoryName;
+    private static String productName;
+
 
     public static String getCustomerFirstName() {
         return customerFirstName;
@@ -27,5 +29,13 @@ public class TestDataHolder {
 
     public static void setCategoryName(String categoryName) {
         TestDataHolder.categoryName = categoryName;
+    }
+
+    public static String getProductName() {
+        return productName;
+    }
+
+    public static void setProductName(String productName) {
+        TestDataHolder.productName = productName;
     }
 }

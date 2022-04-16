@@ -20,4 +20,21 @@ public class PayloadUtility {
         }
         return payload;
     }
+    public static String getCustomerPayload(String email,String title,String firstName,String lastName,String country,
+                                            String phone,int status, String langauge,String ipAddress)
+    {
+        long timestamp=System.currentTimeMillis();
+        String payload=null;
+        CustomerPayload testCustomerPayload=new CustomerPayload(
+                email+timestamp+"@test.com",
+                title,firstName+timestamp,lastName+timestamp,
+                country,phone,status,langauge,ipAddress);
+        ObjectMapper objectMapper=new ObjectMapper();
+        try {
+            payload=objectMapper.writeValueAsString(testCustomerPayload);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return payload;
+    }
 }
