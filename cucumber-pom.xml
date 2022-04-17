@@ -204,13 +204,7 @@
                     </goals>
                 </execution>
             </executions>
-            <configuration>
-                <suiteXmlFiles>
-                    <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                </suiteXmlFiles>
-            </configuration>
         </plugin>
-
     </plugins>
 </build>
 </project>
