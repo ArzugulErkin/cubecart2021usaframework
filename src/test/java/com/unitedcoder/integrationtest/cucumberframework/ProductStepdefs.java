@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class ProductStepdefs {
-    WebDriver driver=CucumberTestRunner.getDriver(); //use the driver from the Cucumber Test Runner class
+    WebDriver driver= RunCucumberTest.getDriver(); //use the driver from the Cucumber Test Runner class
     ProductPage productPage;
     DashboardPage dashboardPage;
     boolean isProductAdded=false;

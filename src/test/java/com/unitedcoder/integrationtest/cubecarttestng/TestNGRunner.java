@@ -23,7 +23,13 @@ public class TestNGRunner extends TestBase {
         String username=applicationConfig.readConfigProperties(configFile,"username");
         String password= applicationConfig.readConfigProperties(configFile,"password");
         String url= applicationConfig.readConfigProperties(configFile,"url");
-        setUpBrowser(url);
+        if(Integer.parseInt(applicationConfig.readConfigProperties(configFile,"headless"))==1)
+        {
+            setUpBrowserInHeadlessMode(url);
+        }
+        else {
+            setUpBrowser(url);
+        }
         context.setAttribute("driver",driver); //setting webdriver in the test context
         //login
         LoginPage loginPage=new LoginPage(driver);
