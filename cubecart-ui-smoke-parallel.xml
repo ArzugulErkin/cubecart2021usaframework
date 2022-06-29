@@ -5,13 +5,13 @@
     </listeners>
     <test name="Cubecart Customer Category Module Smoke Test One" >
         <classes>
-            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner"/>
+            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner1"/>
         </classes>
     </test>
 
     <test name="Cubecart Customer Category Module Smoke Test Two" >
         <classes>
-            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner" />
+            <class name="com.unitedcoder.integrationtest.cubecarttestng.TestNGRunner2" />
         </classes>
     </test>
 
